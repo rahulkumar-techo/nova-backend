@@ -7,15 +7,15 @@ import { errorHandler } from './middlewares/error.middlware';
 
 const app = express();
 
-// 2️⃣ Security
+// Security
 app.use(helmet());
 
-// 3️⃣ Body parsers
+//  Body parsers
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-// 5️⃣ CORS
+//  CORS
 app.use(cors({
   origin: ["*"],
   credentials: true,
