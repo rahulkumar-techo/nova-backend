@@ -1,67 +1,57 @@
-/**
- * apiResponseUtils.ts
- * 
- * Generic API Response Utility Class for Node.js/Express with HTTP status codes
- */
 
-type ResponseData<T = any> = {
-  status: 'success' | 'error' | 'fail';
+//  Response Handler
+import { Response } from "express";
+
+interface ApiResponse<T = any> {
+  success: boolean;
   message: string;
   data?: T;
-  errors?: any;
+  error?: any;
   statusCode: number;
-};
+}
 
-export class ApiResponse<T = any> {
-  private message: string;
-  private data?: T;
-  private errors?: any;
-  private statusCode: number;
-
-  constructor(message: string, statusCode: number, data?: T, errors?: any) {
-    this.message = message;
-    this.data = data;
-    this.errors = errors;
-    this.statusCode = statusCode;
-  }
-
-  private getResponse(): object {
-    const res: any = {
-      message: this.message,
-      statusCode: this.statusCode,
+class ResponseHandler {
+  static success<T>(res: Response, data: T, message = "Success", statusCode = 200) {
+    const response: ApiResponse<T> = {
+      success: true,
+      message,
+      data,
+      statusCode,
     };
-    if (this.data !== undefined) res.data = this.data;
-    if (this.errors !== undefined) res.errors = this.errors;
-    return res;
+    return res.status(statusCode).json(response);
   }
 
-  // Success response
-  static success<T>(message: string, data?: T, statusCode: number = 200): ResponseData<T> {
-    const response = new ApiResponse<T>(message, statusCode, data);
-    return { status: 'success', ...response.getResponse() } as ResponseData<T>;
+  static created<T>(res: Response, data: T, message = "Resource created") {
+    const response: ApiResponse<T> = {
+      success: true,
+      message,
+      data,
+      statusCode: 201,
+    };
+    return res.status(201).json(response);
   }
 
-  // Generic error response
-  static error<T>(message: string, data?: T, statusCode: number = 500): ResponseData<T> {
-    const response = new ApiResponse<T>(message, statusCode, data);
-    return { status: 'error', ...response.getResponse() } as ResponseData<T>;
+  static error(res: Response, error: any, message = "Something went wrong", statusCode = 500) {
+    const response: ApiResponse = {
+      success: false,
+      message,
+      error,
+      statusCode,
+    };
+    return res.status(statusCode).json(response);
   }
 
-  // Validation / bad request response
-  static validationError<T>(message: string, errors: any, statusCode: number = 400, data?: T): ResponseData<T> {
-    const response = new ApiResponse<T>(message, statusCode, data, errors);
-    return { status: 'fail', ...response.getResponse() } as ResponseData<T>;
+  static badRequest(res: Response, message = "Bad request", error?: any) {
+    return this.error(res, error, message, 400);
   }
 
-  // Unauthorized response
-  static unauthorized(message: string = 'Unauthorized', statusCode: number = 401): ResponseData<null> {
-    const response = new ApiResponse<null>(message, statusCode);
-    return { status: 'fail', ...response.getResponse() } as ResponseData<null>;
+  static unauthorized(res: Response, message = "Unauthorized") {
+    return this.error(res, null, message, 401);
   }
 
-  // Not found response
-  static notFound(message: string = 'Not Found', statusCode: number = 404): ResponseData<null> {
-    const response = new ApiResponse<null>(message, statusCode);
-    return { status: 'fail', ...response.getResponse() } as ResponseData<null>;
+  static notFound(res: Response, message = "Not found") {
+    return this.error(res, null, message, 404);
   }
 }
+
+export default ResponseHandler;
