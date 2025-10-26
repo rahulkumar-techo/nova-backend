@@ -12,7 +12,7 @@
     "prepare": "husky install",
     "clean": "rm -rf dist",
     "typecheck": "tsc --noEmit",
-     "test": "echo \"No tests configured\""
+    "test": "echo \"No tests configured\""
   },
   "lint-staged": {
     "*.ts": [
@@ -44,6 +44,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.19.2",
     "morgan": "^1.10.1",
+    "multer": "^2.0.2",
     "winston": "^3.18.3",
     "zod": "^4.1.12"
   },
@@ -52,6 +53,7 @@
     "@types/express": "^5.0.4",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/morgan": "^1.9.10",
+    "@types/multer": "^2.0.0",
     "@types/node": "^24.9.1",
     "@types/supertest": "^6.0.3",
     "@typescript-eslint/eslint-plugin": "^8.46.2",
