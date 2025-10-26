@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import { IUserModel } from "./user.model";
 
 export class UserService {
-  constructor(private repo: UserRepository) {}
+  constructor(private repo: UserRepository) { }
   // Register user (returns saved user)
   async register(input: RegisterInput): Promise<IUserModel> {
     // you may want to check for existing user first
@@ -37,18 +37,21 @@ export class UserService {
   // Map to public view (safe to send to client)
   toPublic(user: IUserModel): PublicUser {
     const dto = {
-      id: user._id.toString(),
+      // id: user._id.toString(),
       username: user.username,
       fullname: user.fullname ?? null,
       email: user.email,
       role: user.role,
-      avatar: user.avatar
+      // avatar: {
+      //   secure_url: user.avatar?.secure_url || "",
+      //   public_id: user.avatar?.public_id || ""
+      // }
     };
     return PublicUserDTO.parse(dto);
   }
 
-generateJwt(user: IUserModel, expiresIn = "1h") {
-  const payload = { id: user._id.toString(), role: user.role };
-  return jwt.sign(payload, process.env.JWT_SECRET || "replace-me", {expiresIn:'1h'});
-}
+  generateJwt(user: IUserModel, expiresIn = "1h") {
+    const payload = { id: user._id.toString(), role: user.role };
+    return jwt.sign(payload, process.env.JWT_SECRET || "replace-me", { expiresIn: '1h' });
+  }
 }

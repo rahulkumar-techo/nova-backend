@@ -12,26 +12,36 @@ const service = new UserService(repo);
 
 export class UserController {
   // POST /api/users/register
-  async register(req: Request, res: Response) {
-    try {
-      const request_data = {
-        username: req.body.username,
-        fullname: req.body.fullname,
-        email: req.body.email,
-        password: req.body.password,
-      };
-      const validated = RegisterDTO.parse(request_data);
-      const user = await service.register(validated);
-      const publicUser = service.toPublic(user);
+async register(req: Request, res: Response) {
+  try {
+    // DEBUG: log raw request body
+    console.log("Raw request body:", req.body);
 
-      return ResponseHandler.created(res, publicUser, "User created");
-    } catch (err: any) {
-      if (err?.name === "ZodError") {
-        return ResponseHandler.badRequest(res, "Invalid input", err.errors);
-      }
-      return ResponseHandler.error(res, err.message ?? "Registration failed", "Registration failed", 400);
+    const request_data = {
+      username: req.body.username,
+      fullname: req.body.fullname,
+      email: req.body.email,
+      password: req.body.password,
+    };
+
+
+    const validated = RegisterDTO.parse(request_data);
+    console.log("Validated data:", validated);
+
+    const user = await service.register(validated);
+    const publicUser = service.toPublic(user);
+
+    return ResponseHandler.created(res, publicUser, "User created");
+  } catch (err: any) {
+    console.error("Register error:", err);
+
+    if (err?.name === "ZodError") {
+      return ResponseHandler.badRequest(res, "Invalid input", err.errors);
     }
+    return ResponseHandler.error(res, err.message ?? "Registration failed", "Registration failed", 400);
   }
+}
+
 
   // POST /api/users/login
   async login(req: Request, res: Response) {

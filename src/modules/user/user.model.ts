@@ -18,12 +18,12 @@ const UserSchema: Schema<IUserModel> = new Schema(
     avatar: {
       secure_url: { type: String },
       public_id: { type: String },
-      required: false,
+
     },
     social_auth: {
       googleId: { type: String },
       facebookId: { type: String },
-      required: false,
+   
     },
     lastLogin: { type: Date },
     isVerified: { type: Boolean, default: false },

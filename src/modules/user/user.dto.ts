@@ -11,7 +11,7 @@ import { email, z } from "zod";
 export const RegisterDTO = z.object({
   username: z.string().min(3).optional(), 
   fullname: z.string().min(1).optional(),
-  email: z.string().regex(emailRegex,"Invalid email format"),
+  email: z.string().email("Invalid email format"),
   password: z.string().min(6)
 });
 export type RegisterInput = z.infer<typeof RegisterDTO>;
