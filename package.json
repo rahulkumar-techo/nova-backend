@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Notes app backend (REST API) with TypeScript + Express",
   "main": "dist/server.js",
-  "type": "module",
   "scripts": {
     "dev": "nodemon",
     "build": "tsc -p tsconfig.json",
