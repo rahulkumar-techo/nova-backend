@@ -1,0 +1,40 @@
+name: Node.js CI (Test Branch)
+
+on:
+  push:
+    branches: [ ci-test ]
+  pull_request:
+    branches: [ ci-test ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v5
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '25'
+
+    - name: Cache Node.js modules
+      uses: actions/cache@v3
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests with coverage
+      run: npm run coverage
+
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: coverage/lcov-report/

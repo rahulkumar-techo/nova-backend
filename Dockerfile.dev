@@ -1,0 +1,19 @@
+FROM node:18-alpine 
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+# Copy all project files
+COPY . .
+
+# Install TypeScript globally (for ts-node)
+RUN npm install -g typescript ts-node
+
+EXPOSE 5000
+
+# Start server in development mode (auto-reload using nodemon)
+CMD ["npx", "nodemon", "src/server.ts"]
+
