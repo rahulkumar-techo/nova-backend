@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Notes app backend (REST API) with TypeScript + Express",
   "main": "dist/server.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "dev": "nodemon",
     "build": "tsc -p tsconfig.json",
@@ -13,9 +13,9 @@
     "prepare": "husky install",
     "clean": "rm -rf dist",
     "typecheck": "tsc --noEmit",
-      "test": "jest",
-  "test:watch": "jest --watch",
-  "coverage": "jest --coverage"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "coverage": "jest --coverage"
   },
   "lint-staged": {
     "*.ts": [
@@ -38,11 +38,13 @@
   },
   "homepage": "https://github.com/rahulkumar-techo/nova-backend#readme",
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "express-rate-limit": "^8.1.0",
     "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.19.2",
     "morgan": "^1.10.1",
     "winston": "^3.18.3",
@@ -52,6 +54,7 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.4",
     "@types/jest": "^30.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/morgan": "^1.9.10",
     "@types/node": "^24.9.1",
     "@types/supertest": "^6.0.3",
