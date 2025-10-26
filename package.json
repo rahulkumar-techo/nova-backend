@@ -13,7 +13,9 @@
     "prepare": "husky install",
     "clean": "rm -rf dist",
     "typecheck": "tsc --noEmit",
-    "test": "echo \"No tests yet\""
+      "test": "jest",
+  "test:watch": "jest --watch",
+  "coverage": "jest --coverage"
   },
   "lint-staged": {
     "*.ts": [
