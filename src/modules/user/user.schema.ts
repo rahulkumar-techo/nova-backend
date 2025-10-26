@@ -1,15 +1,30 @@
-// src/models/user.model.ts
-import { z } from 'zod';
+import mongoose from "mongoose";
 
-// 1️⃣ Define the user schema
-export const UserSchema = z.object({
-  username: z.string().min(3, "Username must be at least 3 characters"),
-  email: z.string().email("Invalid email format"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-  role: z.enum(['admin', 'user']).default('user'),
-  createdAt: z.date().optional(),
-  updatedAt: z.date().optional()
-});
+type role = "guest" | "instructor" | "student" | "admin";
 
-// 2️⃣ Define a TypeScript type from the schema
-export type UserType = z.infer<typeof UserSchema>;
+type avatar = {
+  secure_url: string;
+  public_id: string;
+}
+
+type social_auth = {
+  googleId?: string;
+  facebookId?: string;
+}
+
+
+
+export interface IUser {
+  
+  username: string;
+  fullname?: string;
+  email: string;
+  role: role;
+  password?: string;
+  avatar?: avatar;
+  social_auth?: social_auth;
+  notes?: mongoose.Types.ObjectId[];
+  isVerified?: boolean;
+  lastLogin?: Date;
+  status?: "active" | "inactive" | "banned";
+}

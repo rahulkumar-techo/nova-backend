@@ -1,7 +1,7 @@
-import { log } from "@utils/logger";
-import app from "app";
-import configs from "configs";
-import { db_connection } from "configs/db_connection";
+import { log } from "@/utils/logger";
+import app from "@/app";
+import configs from "@/configs/index";
+import { db_connection } from "@/configs/db_connection";
 
 
 
