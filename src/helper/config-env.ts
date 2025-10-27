@@ -6,6 +6,9 @@ if(!process.env){
     throw Error("Env file not config")
 };
 const config_env = {
+    server_port :process.env.SERVER_PORT||"",
+    node_env:process.env.NODE_ENV||"",
+    redis_uri:process.env.REDIS_URI||"",
     google_client_id:process.env.GOOGLE_CLIENT_ID||"",
     google_secret_id:process.env.GOOGLE_SECRET_ID||"",
     callback_url:process.env.CALLBACK_URL||"",
