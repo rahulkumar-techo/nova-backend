@@ -1,9 +1,10 @@
 // src/modules/user/user.controller.ts
 import { Request, Response } from "express";
-import { RegisterDTO, LoginDTO } from "./user.dto";
-import { UserService } from "./user.service";
-import { UserRepository } from "./user.repository";
+
 import ResponseHandler from "@/utils/api-response.utils";
+import { UserRepository } from "@/repositories/user.repository";
+import { UserService } from "@/services/user.service";
+import { LoginDTO, RegisterDTO } from "@/schemas/user/user.dto";
 
 
 // Manual DI; in larger app use container

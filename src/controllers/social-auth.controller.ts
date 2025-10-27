@@ -10,8 +10,9 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { Strategy as GitHubStrategy } from "passport-github2";
 import { Express } from "express";
 
-import AuthService from "./auth.service";
+
 import config_env from "@/helper/config-env";
+import authService from "@/services/auth.service";
 
 //  Keep provider names in sync with AuthService
 type Provider = "google" | "github";
@@ -34,7 +35,7 @@ class SocialAuth {
         },
         async (_accessToken, _refreshToken, profile, done) => {
           try {
-            const user = await AuthService.findOrCreateUser(profile, "google");
+            const user = await authService.findOrCreateUser(profile, "google");
             return done(null, user);
           } catch (err) {
             return done(err as Error);
@@ -56,7 +57,7 @@ class SocialAuth {
         },
         async (accessToken: string, refreshToken: string, profile: any, done: any) => {
           try {
-            const user = await AuthService.findOrCreateUser(profile, "github");
+            const user = await authService.findOrCreateUser(profile, "github");
             return done(null, user);
           } catch (err) {
             return done(err);

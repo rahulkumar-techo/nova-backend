@@ -13,6 +13,18 @@ const config_env = {
     github_clinet_id:process.env.GITHUB_CLIENT_ID||"",
     github_secret_id:process.env.GITHUB_SECRET_ID||"",
     github_callback_url:process.env.GITHUB_CALLBACK_URL||"",
+    // JWT
+    jwt_access_secret:process.env.JWT_ACCESS_SECRET||"",
+    jwt_refresh_secret:process.env.JWT_REFRESH_SECRET||"",
+    jwt_access_expiry:process.env.JWT_ACCESS_EXPIRY||"",
+    jwt_refresh_expiry:process.env.JWT_REFRESH_EXPIRY||"",
+    // Cookie
+    cookie_domain:process.env.COOKIE_DOMAIN||"",
+    cookie_secure:process.env.COOKIE_SECURE||"",
+    cookie_same_site:process.env.COOKIE_SAME_SITE||"",
+    cookie_http_only:process.env.COOKIE_HTTP_ONLY||"",
+    cors_origin:process.env.CORS_ORIGIN||"",
+    cors_credentials:process.env.CORS_CREDENTIALS||""
 };
 
 export default config_env;

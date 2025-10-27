@@ -1,6 +1,6 @@
 // src/routes/auth.routes.ts
 import express from "express";
-import passport from "./social-auth"; 
+import passport from "@/controllers/social-auth.controller"; 
 
 const authRoute = express.Router();
 

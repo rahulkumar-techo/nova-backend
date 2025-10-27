@@ -3,11 +3,12 @@ import helmet from 'helmet';
 import cors from 'cors';
 import loggerMiddleware from './middlewares/logger.middleware';
 import { errorHandler } from './middlewares/error.middlware';
-import userRoutes from './modules/user/user.route';
+
 import global_error from './utils/global-error';
-import authRoute from './modules/auth/auth.route';
+import authRoute from './routes/auth.route';
 import session from "express-session";
-import passport from "./modules/auth/social-auth"
+import passport from "./controllers/social-auth.controller"
+import userRoutes from './routes/user.route';
 
 const app = express();
 

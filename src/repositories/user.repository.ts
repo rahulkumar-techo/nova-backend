@@ -1,5 +1,7 @@
 // src/modules/user/user.repository.ts
-import { UserModel, IUserModel } from "./user.model";
+
+import { IUserModel, UserModel } from "@/models/auth/user.model";
+
 
 export class UserRepository {
   async create(data: Partial<IUserModel>) {

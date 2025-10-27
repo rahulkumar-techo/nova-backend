@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-type role = "guest" | "instructor" | "student" | "admin";
+export type role = "guest" | "instructor" | "student" | "admin";
 
 type IAvatar  = {
   secure_url?: string;
