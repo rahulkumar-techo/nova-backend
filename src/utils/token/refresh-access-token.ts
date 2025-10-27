@@ -1,15 +1,14 @@
 
-import { ITokenResult } from "@/utils/token.util";
+import { generateTokens, ITokenResult } from "@/utils/token.util";
 import { NextFunction, Request, Response } from "express";
 import refreshTokenModel from "../../models/token/refresh-token.model";
-import tokenRepository from "./token.repository";
+import tokenRepository from "../../repositories/token.repository";
 import jwt from "jsonwebtoken"
+import { UserRepository } from "@/repositories/user.repository";
+import { IRequestUser } from "@/types/express";
 
-interface IPayload {
-  _id: string;
-  roles: ("user" | "admin" | "provider" | "guest")[];
-}
 
+const user_repository_instance = new UserRepository()
 interface IRefreshAccessToken {
   req: Request,
   oldRefreshToken: string
@@ -25,13 +24,17 @@ const RefreshAccessToken = async (
     const storedToken = tokenRepository.findOne(oldRefreshToken);
     // if (!storedToken || storedToken.blacklist) return null;
 
-    const decoded = jwt.verify(oldRefreshToken, process.env.JWT_REFRESH_TOKEN_KEY) as IPayload;
+    const decoded = jwt.verify(oldRefreshToken, process.env.JWT_REFRESH_TOKEN_KEY) as IRequestUser;
     if (!decoded) return null;
 
-    const user = await UserModel.findById(decoded._id);
+    const user = await user_repository_instance.findById(String(decoded?._id));
     if (!user) return null;
 
-    return await generateTokens({ user, oldRefreshToken });
+    const destructuredUser:IRequestUser ={
+      _id:user?._id,
+      role:user?.role
+    } 
+    return await generateTokens({ user:destructuredUser, oldRefreshToken });
   } catch (error) {
     console.error("❌ Refresh Token Error:", error);
     return null;

@@ -1,5 +1,5 @@
 import redis from "@/configs/redis-client";
-import refreshTokenModel from "../../models/token/refresh-token.model";
+import refreshTokenModel from "../models/token/refresh-token.model";
 
 interface IHandleRefreshTokenParams {
   oldRefreshToken?: string;
@@ -31,7 +31,7 @@ class TokenRepository {
     // Store new token into Redis + DB
     await Promise.all([
       redis.set(`refresh:${refreshToken}`, userId, "EX", refreshTTL),
-      refreshTokenModel.create({ userId, token: refreshToken })
+      refreshTokenModel.create({ userId, token: refreshToken ,expiresAt:refreshTTL})
     ]);
   }
 

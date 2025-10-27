@@ -1,9 +1,10 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import ms from "ms";
 import "dotenv/config";
-import tokenRepository from "@/utils/token/token.repository";
+import tokenRepository from "@/repositories/token.repository";
 import { role } from "@/schemas/user/user.schema";
 import { IRequestUser } from "@/types/express";
+import config_env from "@/helper/config-env";
 
 export interface IPayload {
   _id: string;
@@ -29,7 +30,7 @@ export const generateTokens = async ({
   oldRefreshToken
 }: TGenerateTokens): Promise<ITokenResult> => {
 
-  if (!process.env.JWT_ACCESS_TOKEN_KEY || !process.env.JWT_REFRESH_TOKEN_KEY) {
+  if (!config_env.jwt_access_secret || !config_env.jwt_refresh_secret) {
     throw new Error("JWT secret keys are missing in environment variables");
   }
 
@@ -46,8 +47,8 @@ export const generateTokens = async ({
   const refreshTTL = Math.floor(ms(refreshTokenExp) / 1000);
 
   // Generate Tokens
-  const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_TOKEN_KEY, { expiresIn: accessTTL });
-  const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_TOKEN_KEY, { expiresIn: refreshTTL });
+  const accessToken = jwt.sign(payload, config_env.jwt_access_secret, { expiresIn: accessTTL });
+  const refreshToken = jwt.sign(payload, config_env.jwt_refresh_secret, { expiresIn: refreshTTL });
 
   // Save refresh token in Redis + DB
 await tokenRepository.handleRefreshToken({
@@ -64,7 +65,7 @@ await tokenRepository.handleRefreshToken({
 export const isTokenExp = (token: string): boolean => {
   if (!token) return true;
   try {
-    const decoded = jwt.verify(token, process.env.JWT_ACCESS_TOKEN_KEY!) as JwtPayload;
+    const decoded = jwt.verify(token, config_env.jwt_access_secret!) as JwtPayload;
     const currentTime = Math.floor(Date.now() / 1000);
     return (decoded.exp ?? 0) < currentTime;
   } catch {

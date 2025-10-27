@@ -51,6 +51,15 @@ app.get("/", (req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
+app.get("/error", (req, res) => {
+  return res.status(409).json({
+    success: false,
+    message: "Eror while login by googleorgithub",
+    version: "1.0.0",
+    docs: "/api/docs",
+    timestamp: new Date().toISOString(),
+  });
+});
 
 app.use("/api/users", userRoutes);
 app.use("/auth", authRoute);
