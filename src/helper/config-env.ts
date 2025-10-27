@@ -11,7 +11,8 @@ const config_env = {
     callback_url:process.env.CALLBACK_URL||"",
     mongodb_uri:process.env.MONGODB_URI||"",
     github_clinet_id:process.env.GITHUB_CLIENT_ID||"",
-    github_secret_id:process.env.GITHUB_SECRET_ID||""
+    github_secret_id:process.env.GITHUB_SECRET_ID||"",
+    github_callback_url:process.env.GITHUB_CALLBACK_URL||"",
 };
 
 export default config_env;
