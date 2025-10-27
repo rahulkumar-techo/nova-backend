@@ -5,6 +5,9 @@ import loggerMiddleware from './middlewares/logger.middleware';
 import { errorHandler } from './middlewares/error.middlware';
 import userRoutes from './modules/user/user.route';
 import global_error from './utils/global-error';
+import authRoute from './modules/auth/auth.route';
+import session from "express-session";
+import passport from "./modules/auth/social-auth"
 
 const app = express();
 
@@ -24,13 +27,32 @@ app.use(cors({
   optionsSuccessStatus: 200
 }));
 
-app.use(cors());
-app.use(express.json());
+// ----- Session middleware -----
+app.use(session({
+  secret: process.env.SESSION_SECRET || "some_secret_key",
+  resave: false,    
+  saveUninitialized: false,
+  cookie: { secure: false }
+}));
+
+// ----- Initialize Passport -----
+app.use(passport.initialize());
+app.use(passport.session());
 
 
-// Define routes here
+// Root/Home Route
+app.get("/", (req, res) => {
+  return res.status(200).json({
+    success: true,
+    message: "Welcome to the NovaNoteX API 🚀",
+    version: "1.0.0",
+    docs: "/api/docs",
+    timestamp: new Date().toISOString(),
+  });
+});
 
 app.use("/api/users", userRoutes);
+app.use("/auth", authRoute);
 
 // Global error handler
 

@@ -2,14 +2,15 @@ import mongoose from "mongoose";
 
 type role = "guest" | "instructor" | "student" | "admin";
 
-type avatar = {
-  secure_url: string;
-  public_id: string;
+type IAvatar  = {
+  secure_url?: string;
+  public_id?: string;
 }
 
-type social_auth = {
+export interface ISocialAuth {
   googleId?: string;
-  facebookId?: string;
+  githubId?: string;
+  microsoftId?: string;
 }
 
 
@@ -21,10 +22,11 @@ export interface IUser {
   email: string;
   role: role;
   password?: string;
-  avatar?: avatar;
-  social_auth?: social_auth;
+  avatar?: IAvatar ;
+  social_auth?: ISocialAuth;
   notes?: mongoose.Types.ObjectId[];
   isVerified?: boolean;
   lastLogin?: Date;
+  provider: "google" | "github" | "microsoft" | "local";
   status?: "active" | "inactive" | "banned";
 }

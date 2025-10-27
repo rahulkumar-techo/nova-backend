@@ -22,9 +22,10 @@ const UserSchema: Schema<IUserModel> = new Schema(
     },
     social_auth: {
       googleId: { type: String },
-      facebookId: { type: String },
-   
+      githubId: { type: String },
+      microsoftId: { type: String },
     },
+    provider:{type:String,enum:["local","github","microsoft","google"],default:'local'},
     lastLogin: { type: Date },
     isVerified: { type: Boolean, default: false },
     status: { type: String, enum: ["active", "inactive", "banned"], default: "active" },
@@ -39,7 +40,7 @@ UserSchema.pre<IUserModel>("save", async function (next) {
     //  Generate username if missing
     if (!this.username) {
       const randomNum = Math.floor(1000 + Math.random() * 9000);
-      const namePart = this.email.split("@")[0]; // part of email
+      const namePart = this.email!.split("@")[0]; // part of email
       this.username = `${namePart}_${randomNum}`;
     }
 

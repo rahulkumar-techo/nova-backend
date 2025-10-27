@@ -6,7 +6,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-const PORT = process.env.PORT ? Number(process.env.SERVER_PORT) : 4000;
+const PORT = process.env.PORT ? Number(process.env.SERVER_PORT) : 5000;
 const NODE_ENV = process.env.NODE_ENV || "development";
 
 export default {

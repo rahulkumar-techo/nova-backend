@@ -1,7 +1,8 @@
 
+import config_env from '@/helper/config-env';
 import mongoose from 'mongoose';
 
-const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/novadb';
+const mongoURI = config_env.mongodb_uri || '';
 
 export const db_connection = async () => {
     try {
