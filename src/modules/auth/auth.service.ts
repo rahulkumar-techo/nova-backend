@@ -15,7 +15,7 @@
  */
 
 import { Profile } from "passport";
-import socialValidation, { ISocialDTO } from "@/schemas/auth/auth.dto";
+import socialValidation, { ISocialDTO } from "@/modules/auth/auth.validation";
 import UserRepository from "@/repositories/auth.repository";
 
 type Provider = "google" | "github";

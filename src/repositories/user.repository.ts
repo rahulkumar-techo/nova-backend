@@ -1,6 +1,6 @@
 // src/modules/user/user.repository.ts
 
-import { IUserModel, UserModel } from "@/models/auth/user.model";
+import { IUserModel, UserModel } from "@/modules/user/user.model";
 
 
 export class UserRepository {

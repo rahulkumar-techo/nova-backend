@@ -1,7 +1,7 @@
 // src/models/user.model.ts
 import mongoose, { Document, Schema, Model, Types } from "mongoose";
 import bcrypt from "bcryptjs";
-import { IUser } from "../../schemas/user/user.schema";
+import { IUser } from "./user.schema";
 
 export interface IUserModel extends IUser, Document {
   _id: Types.ObjectId;

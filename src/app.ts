@@ -3,13 +3,12 @@ import helmet from 'helmet';
 import cors from 'cors';
 import loggerMiddleware from './middlewares/logger.middleware';
 import { errorHandler } from './middlewares/error.middlware';
-
 import global_error from './utils/global-error';
-import authRoute from './routes/auth.route';
 import session from "express-session";
-import passport from "./controllers/social-auth.controller"
-import userRoutes from './routes/user.route';
-
+import passport from "./modules/auth/social-auth.controller"
+import cookieParser from "cookie-parser"
+import userRoutes from './modules/user/user.route';
+import authRoute from './modules/auth/auth.route';
 const app = express();
 
 // Security
@@ -19,7 +18,8 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(loggerMiddleware);
-
+// Use cookie-parser middleware
+app.use(cookieParser());
 
 //  CORS
 app.use(cors({

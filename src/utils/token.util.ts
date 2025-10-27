@@ -1,10 +1,9 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import ms from "ms";
-import "dotenv/config";
 import tokenRepository from "@/repositories/token.repository";
-import { role } from "@/schemas/user/user.schema";
+import { role } from "@/modules/user/user.schema";
 import { IRequestUser } from "@/types/express";
-import config_env from "@/helper/config-env";
+import config_env from "@/configs/config-env";
 
 export interface IPayload {
   _id: string;

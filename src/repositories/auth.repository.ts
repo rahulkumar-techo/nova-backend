@@ -7,7 +7,7 @@
  * - Provider-safe queries for Google/GitHub social login
  */
 
-import { IUserModel, UserModel } from "../models/auth/user.model";
+import { IUserModel, UserModel } from "@/modules/user/user.model";
 
 type Provider = "google" | "github";
 

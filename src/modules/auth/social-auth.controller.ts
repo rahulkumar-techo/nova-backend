@@ -11,8 +11,8 @@ import { Strategy as GitHubStrategy } from "passport-github2";
 import { Express } from "express";
 
 
-import config_env from "@/helper/config-env";
-import authService from "@/services/auth.service";
+import config_env from "@/configs/config-env";
+import authService from "@/modules/auth/auth.service";
 
 //  Keep provider names in sync with AuthService
 type Provider = "google" | "github";

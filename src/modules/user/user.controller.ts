@@ -3,8 +3,8 @@ import { Request, Response } from "express";
 
 import ResponseHandler from "@/utils/api-response.utils";
 import { UserRepository } from "@/repositories/user.repository";
-import { UserService } from "@/services/user.service";
-import { LoginDTO, RegisterDTO } from "@/schemas/user/user.dto";
+import { UserService } from "@/modules/user/user.service";
+import { LoginDTO, RegisterDTO } from "@/modules/user/user.validation";
 
 
 // Manual DI; in larger app use container

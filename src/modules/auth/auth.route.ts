@@ -1,10 +1,12 @@
 // src/routes/auth.routes.ts
 import express, { Request, Response, NextFunction } from "express";
-import passport from "@/controllers/social-auth.controller";
+import passport from "@/modules/auth/social-auth.controller";
 import { generateTokens } from "@/utils/token.util";
 import setTokenCookies from "@/utils/set-cookies.util";
 import redis from "@/configs/redis-client";
 import { IRequestUser } from "@/types/express/index";
+import autoRefreshAccessToken from "@/middlewares/auto-refreshAccess-token";
+import { authenticate } from "@/middlewares/auth.middleware";
 
 const authRoute = express.Router();
 
@@ -67,5 +69,8 @@ authRoute.get("/github", oauthInit("github", { scope: ["user:email"] }));
 
 // GitHub callback
 authRoute.get("/github/callback", oauthCallback("github"));
+authRoute.get("/me",autoRefreshAccessToken,authenticate,(req,res)=>{
+  res.status(201).json({success:true,message:"me"})
+})
 
 export default authRoute;

@@ -1,5 +1,6 @@
 
-import config_env from '@/helper/config-env';
+import config_env from '@/configs/config-env';
+import { log } from '@/utils/logger';
 import mongoose from 'mongoose';
 
 const mongoURI = config_env.mongodb_uri || '';
@@ -7,9 +8,9 @@ const mongoURI = config_env.mongodb_uri || '';
 export const db_connection = async () => {
     try {
         await mongoose.connect(mongoURI);
-        console.log('Connected to MongoDB successfully');
+        log.info('💽 Connected to MongoDB successfully');
     } catch (error) {
-        console.error('Error connecting to MongoDB:', error);
+        log.error('Error connecting to MongoDB:', error);
         process.exit(1);
     }
 };

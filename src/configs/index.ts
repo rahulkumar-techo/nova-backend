@@ -2,12 +2,10 @@
  * Config loader for environment variables.
  * Loads simple settings used across the app.
  */
+import config_env from "./config-env";
 
-import dotenv from "dotenv";
-dotenv.config();
-
-const PORT = process.env.PORT ? Number(process.env.SERVER_PORT) : 5000;
-const NODE_ENV = process.env.NODE_ENV || "development";
+const PORT = config_env.server_port ? Number(config_env.server_port) : 5000;
+const NODE_ENV = config_env.node_env || "development";
 
 export default {
   port: PORT,

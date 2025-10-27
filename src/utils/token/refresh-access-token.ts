@@ -1,11 +1,12 @@
 
 import { generateTokens, ITokenResult } from "@/utils/token.util";
 import { NextFunction, Request, Response } from "express";
-import refreshTokenModel from "../../models/token/refresh-token.model";
+import refreshTokenModel from "../../modules/token/refresh-token.model";
 import tokenRepository from "../../repositories/token.repository";
 import jwt from "jsonwebtoken"
 import { UserRepository } from "@/repositories/user.repository";
 import { IRequestUser } from "@/types/express";
+import config_env from "@/configs/config-env";
 
 
 const user_repository_instance = new UserRepository()
@@ -19,12 +20,12 @@ const RefreshAccessToken = async (
   try {
     if (!oldRefreshToken) return null;
 
-    if (!process.env.JWT_REFRESH_TOKEN_KEY) throw new Error("JWT secret missing");
+    if (!config_env.jwt_refresh_secret) throw new Error("JWT secret missing");
 
     const storedToken = tokenRepository.findOne(oldRefreshToken);
     // if (!storedToken || storedToken.blacklist) return null;
 
-    const decoded = jwt.verify(oldRefreshToken, process.env.JWT_REFRESH_TOKEN_KEY) as IRequestUser;
+    const decoded = jwt.verify(oldRefreshToken, config_env.jwt_refresh_secret) as IRequestUser;
     if (!decoded) return null;
 
     const user = await user_repository_instance.findById(String(decoded?._id));

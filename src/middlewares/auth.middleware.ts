@@ -1,4 +1,5 @@
-import { role } from "@/schemas/user/user.schema";
+import config_env from "@/configs/config-env";
+import { role } from "@/modules/user/user.schema";
 import { IRequestUser } from "@/types/express";
 import ResponseHandler from "@/utils/api-response.utils";
 import { Request, Response, NextFunction } from "express";
@@ -23,12 +24,12 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
       return ResponseHandler.unauthorized(res, "Access token missing");
     }
 
-    if (!process.env.JWT_ACCESS_TOKEN_KEY) {
+    if (!config_env.jwt_access_secret) {
       return ResponseHandler.error(res, null, "JWT secret missing");
     }
 
     // 2️⃣ Verify token
-    const decoded = jwt.verify(token, process.env.JWT_ACCESS_TOKEN_KEY) as JwtPayload & {
+    const decoded = jwt.verify(token, config_env.jwt_access_secret) as JwtPayload & {
       _id: string;
       roles: role;
     };

@@ -22,7 +22,6 @@ const autoRefreshAccessToken = async (req: Request, res: Response, next: NextFun
     }
 
     const refreshToken = req.cookies?.refreshToken;
-    console.log(refreshToken)
     if (!refreshToken) {
       return ResponseHandler.unauthorized(res, "Refresh token missing");
     }

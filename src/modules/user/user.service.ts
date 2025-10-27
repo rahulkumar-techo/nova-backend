@@ -1,8 +1,8 @@
 // src/modules/user/user.service.ts
 import { UserRepository } from "@/repositories/user.repository";
-import { RegisterInput, LoginInput, PublicUser, PublicUserDTO } from "@/schemas/user/user.dto";
+import { RegisterInput, LoginInput, PublicUser, PublicUserDTO } from "@/modules/user/user.validation";
 import jwt from "jsonwebtoken";
-import { IUserModel } from "@/models/auth/user.model";
+import { IUserModel } from "@/modules/user/user.model";
 
 
 export class UserService {

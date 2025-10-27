@@ -1,5 +1,5 @@
 import redis from "@/configs/redis-client";
-import refreshTokenModel from "../models/token/refresh-token.model";
+import refreshTokenModel from "../modules/token/refresh-token.model";
 
 interface IHandleRefreshTokenParams {
   oldRefreshToken?: string;
