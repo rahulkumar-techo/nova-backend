@@ -21,6 +21,7 @@ const config_env = {
     jwt_refresh_secret: process.env.JWT_REFRESH_SECRET || "",
     jwt_access_expiry: process.env.JWT_ACCESS_EXPIRY || "",
     jwt_refresh_expiry: process.env.JWT_REFRESH_EXPIRY || "",
+    otp_secret:process.env.OTP_SECRET,
     // Cookie
     cookie_domain: process.env.COOKIE_DOMAIN || "",
     cookie_secure: process.env.COOKIE_SECURE || "",

@@ -5,16 +5,18 @@ import { IUser } from "./user.schema";
 
 export interface IUserModel extends IUser, Document {
   _id: Types.ObjectId;
+  otpToken?: string;
+  isResetVerified:boolean;
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
 const UserSchema: Schema<IUserModel> = new Schema(
   {
-    username: { type: String, required: true, minlength: 5, unique: true },
+    username: { type: String, required: true, minlength: 5 },
     fullname: { type: String, required: false },
     email: { type: String, required: [true, "email is required"], unique: true },
     password: { type: String, required: false, minlength: 6 },
-    role: { type: String, enum: ["admin","instructor","student","guest"], default: "guest" },
+    role: { type: String, enum: ["admin", "instructor", "student", "guest"], default: "guest" },
     avatar: {
       secure_url: { type: String },
       public_id: { type: String },
@@ -25,11 +27,13 @@ const UserSchema: Schema<IUserModel> = new Schema(
       githubId: { type: String },
       microsoftId: { type: String },
     },
-    provider:{type:String,enum:["local","github","microsoft","google"],default:'local'},
+    provider: { type: String, enum: ["local", "github", "microsoft", "google"], default: 'local' },
     lastLogin: { type: Date },
     isVerified: { type: Boolean, default: false },
     status: { type: String, enum: ["active", "inactive", "banned"], default: "active" },
     notes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Note" }],
+    otpToken: { type: String },
+    isResetVerified:{type:Boolean,default:false}
   },
   { timestamps: true }
 );

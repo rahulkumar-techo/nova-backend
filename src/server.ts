@@ -5,6 +5,15 @@ import { log } from "@/utils/logger";
 
 const PORT = configs.port;
 
+
+process.on('uncaughtException', err => {
+  log.error('💥 Uncaught Exception:', err);
+});
+
+process.on('unhandledRejection', err => {
+  log.error('💥 Unhandled Rejection:', err);
+});
+
 (async () => {
   try {
     await db_connection();

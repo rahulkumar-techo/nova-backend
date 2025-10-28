@@ -7,9 +7,19 @@
  * - Provider-safe queries for Google/GitHub social login
  */
 
+import redis from "@/configs/redis-client";
 import { IUserModel, UserModel } from "@/modules/user/user.model";
+import { role } from "@/modules/user/user.schema";
+import setTokenCookies from "@/utils/set-cookies.util";
+import { generateTokens } from "@/utils/token.util";
+import { Response } from "express";
 
 type Provider = "google" | "github";
+
+type ITokenUser ={
+  _id:string;
+  role:role
+}
 
 class UserRepository {
   /** Create a new user */
@@ -39,8 +49,13 @@ class UserRepository {
 
   /** Update user by ID with partial data */
   async update(id: string, data: Partial<IUserModel>) {
-    return UserModel.findByIdAndUpdate(id, data, { new: true }).exec();
+    return UserModel.findByIdAndUpdate(id, {$set:data}, { new: true }).exec();
   }
+async findByEmailAndUpdate(email: string, data: Partial<IUserModel>) {
+  return UserModel.findOneAndUpdate({ email }, { $set: data }, { new: true }).exec();
+}
+
+
 
   /** Only update lastLogin timestamp */
   async updateLastLogin(id: string) {
@@ -49,6 +64,22 @@ class UserRepository {
       { lastLogin: new Date() },
       { new: true }
     ).exec();
+  }
+
+  async SetTokens(res:Response,user:ITokenUser){
+        const refactorUser = {
+          _id: String(user._id),
+          role: (user as any).role,
+        };
+
+        // Generate tokens (this handles storing refresh token too)
+        const { accessToken, refreshToken, accessTTL, refreshTTL } = await generateTokens({
+          user: refactorUser,
+        });
+
+        // Set cookies and store session in Redis
+        setTokenCookies({ res, accessToken, refreshToken, accessTTL, refreshTTL });
+        await redis.set(`session:${user._id}`, JSON.stringify(user), "EX", accessTTL);
   }
 
   // Future additions:

@@ -4,12 +4,10 @@ import { NextFunction, Request, Response } from "express";
 import refreshTokenModel from "../../modules/token/refresh-token.model";
 import tokenRepository from "../../repositories/token.repository";
 import jwt from "jsonwebtoken"
-import { UserRepository } from "@/repositories/user.repository";
 import { IRequestUser } from "@/types/express";
 import config_env from "@/configs/config-env";
+import authRepository from "@/repositories/auth.repository";
 
-
-const user_repository_instance = new UserRepository()
 interface IRefreshAccessToken {
   req: Request,
   oldRefreshToken: string
@@ -28,7 +26,7 @@ const RefreshAccessToken = async (
     const decoded = jwt.verify(oldRefreshToken, config_env.jwt_refresh_secret) as IRequestUser;
     if (!decoded) return null;
 
-    const user = await user_repository_instance.findById(String(decoded?._id));
+    const user = await authRepository.findById(String(decoded?._id));
     if (!user) return null;
 
     const destructuredUser:IRequestUser ={
