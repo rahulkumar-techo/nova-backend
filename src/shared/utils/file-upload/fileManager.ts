@@ -3,7 +3,7 @@
 
 import { FileRepository } from "./file.repository";
 
-export class FileService {
+export class FileManger {
   private repo = new FileRepository();
 
   async uploadFiles(files: Express.Multer.File[], folder: string) {

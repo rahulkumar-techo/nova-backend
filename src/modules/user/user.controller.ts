@@ -1,11 +1,11 @@
 // src/modules/user/user.controller.ts
 // Description: Handles user profile editing and image upload to Cloudinary
 
-import { FileService } from "@/shared/utils/file-upload/fileManager";
+import { FileManger } from "@/shared/utils/file-upload/fileManager";
 import { Request, Response } from "express";
 
 
-const fileService = new FileService();
+const fileService = new FileManger();
 
 export class UserController {
   /**
