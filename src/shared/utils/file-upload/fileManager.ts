@@ -16,7 +16,7 @@ export class FileManger {
     return {
       responseTimeMs: Math.round(performance.now() - start),
       data: results.map((r: any) => ({
-        url: r.secure_url,
+        secure_url: r.secure_url,
         public_id: r.public_id,
         bytes: r.bytes,
       })),
