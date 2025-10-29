@@ -1,8 +1,8 @@
 // src/routes/auth.routes.ts
 import express, { Request, Response, NextFunction } from "express";
 import passport from "@/modules/auth/social-auth.controller";
-import { generateTokens } from "@/utils/token.util";
-import setTokenCookies from "@/utils/set-cookies.util";
+import { generateTokens } from "@/shared/utils/token.util";
+import setTokenCookies from "@/shared/utils/set-cookies.util";
 import redis from "@/configs/redis-client";
 import { IRequestUser } from "@/types/express/index";
 import autoRefreshAccessToken from "@/middlewares/auto-refreshAccess-token";

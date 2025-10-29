@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { IRegisterValidation, loginValidation, newPasswordValidation, registerValidation } from "./auth.validation";
 
-import ResponseHandler from "@/utils/api-response.utils";
+import ResponseHandler from "@/shared/utils/api-response.utils";
 import manualAuthService from "./manual-auth.service";
 
 class ManualAuthController {

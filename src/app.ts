@@ -11,10 +11,11 @@ import cookieParser from "cookie-parser";
 import passport from "./modules/auth/social-auth.controller";
 import loggerMiddleware from "./middlewares/logger.middleware";
 import { errorHandler } from "./middlewares/error.middlware";
-import global_error from "./utils/global-error";
+import global_error from "./shared/utils/global-error";
 import authRoute from "./modules/auth/auth.route";
 import manualRoute from "./modules/auth/manual-auth.route";
 import path from "path";
+import userEditRoute from "./modules/user/user.route";
 
 const app = express();
 
@@ -73,8 +74,8 @@ app.get("/error", (req: Request, res: Response) => {
 });
 
 // ---------------- Routes ----------------
-app.use("/auth", authRoute);
-app.use("/user", manualRoute);
+app.use("/api/auth", authRoute);
+app.use("/api/user", manualRoute,userEditRoute);
 
 // ---------------- 404 Handler ----------------
 app.use((req: Request, res: Response) => {

@@ -1,7 +1,7 @@
 import config_env from "@/configs/config-env";
 import { role } from "@/modules/user/user.schema";
 import { IRequestUser } from "@/types/express";
-import ResponseHandler from "@/utils/api-response.utils";
+import ResponseHandler from "@/shared/utils/api-response.utils";
 import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 

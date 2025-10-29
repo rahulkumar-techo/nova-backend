@@ -1,5 +1,5 @@
 import config_env from '@/configs/config-env';
-import { log } from '@/utils/logger';
+import { log } from '@/shared/utils/logger';
 import Redis from 'ioredis';
 
 

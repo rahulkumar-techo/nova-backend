@@ -10,8 +10,8 @@
 import redis from "@/configs/redis-client";
 import { IUserModel, UserModel } from "@/modules/user/user.model";
 import { role } from "@/modules/user/user.schema";
-import setTokenCookies from "@/utils/set-cookies.util";
-import { generateTokens } from "@/utils/token.util";
+import setTokenCookies from "@/shared/utils/set-cookies.util";
+import { generateTokens } from "@/shared/utils/token.util";
 import { Response } from "express";
 
 type Provider = "google" | "github";

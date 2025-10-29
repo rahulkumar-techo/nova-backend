@@ -2,7 +2,7 @@
  * Global error handling middleware.
  */
 
-import { log } from "@/utils/logger";
+import { log } from "@/shared/utils/logger";
 import { NextFunction, Request, Response } from "express";
 
 

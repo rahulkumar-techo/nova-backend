@@ -1,8 +1,8 @@
 
-import { generateTokens, ITokenResult } from "@/utils/token.util";
+import { generateTokens, ITokenResult } from "@/shared/utils/token.util";
 import { NextFunction, Request, Response } from "express";
-import refreshTokenModel from "../../modules/token/refresh-token.model";
-import tokenRepository from "../../repositories/token.repository";
+import refreshTokenModel from "../../../modules/token/refresh-token.model";
+import tokenRepository from "../../../repositories/token.repository";
 import jwt from "jsonwebtoken"
 import { IRequestUser } from "@/types/express";
 import config_env from "@/configs/config-env";

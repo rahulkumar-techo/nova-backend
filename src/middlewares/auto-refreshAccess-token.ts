@@ -1,7 +1,7 @@
-import ResponseHandler from "@/utils/api-response.utils";
-import setTokenCookies from "@/utils/set-cookies.util";
-import { isTokenExp } from "@/utils/token.util";
-import RefreshAccessToken from "@/utils/token/refresh-access-token";
+import ResponseHandler from "@/shared/utils/api-response.utils";
+import setTokenCookies from "@/shared/utils/set-cookies.util";
+import { isTokenExp } from "@/shared/utils/token.util";
+import RefreshAccessToken from "@/shared/utils/token/refresh-access-token";
 import { NextFunction, Request, Response } from "express";
 
 

@@ -1,6 +1,6 @@
 
 import config_env from '@/configs/config-env';
-import { log } from '@/utils/logger';
+import { log } from '@/shared/utils/logger';
 import mongoose from 'mongoose';
 
 const mongoURI = config_env.mongodb_uri || '';
