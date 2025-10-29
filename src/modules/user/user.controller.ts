@@ -1,50 +1,36 @@
 // src/modules/user/user.controller.ts
-// Description: Handles user profile editing and image upload to Cloudinary
+// Description: Handles request/response for user profile routes
 
-import { FileManger } from "@/shared/utils/file-upload/fileManager";
 import { Request, Response } from "express";
-
-
-const fileService = new FileManger();
+import ResponseHandler from "@/shared/utils/api-response.utils";
+import userService from "./user.service";
 
 export class UserController {
   /**
-   * Edit user profile and upload profile image (if provided)
+   * Edit user profile
    */
   async editProfile(req: Request, res: Response) {
     try {
-      const { fullname, public_id } = req.body; // existing Cloudinary ID (if replacing)
+      const { fullname, public_id } = req.body;
       const file = req.file as Express.Multer.File | undefined;
 
-      let uploadedImage = null;
+      const userId = req?.user?._id as string;
 
-      if (file) {
-        const uploadResult = await fileService.updateFile(
-          public_id || "",   
-          file,               
-          "NovaNoteX/Profiles" 
-        );
-
-        uploadedImage = uploadResult.data;
-      }
-
-      // 🧠 Example: update user details in DB
-      // await UserModel.findByIdAndUpdate(req.user._id, {
-      //   fullname,
-      //   avatar: uploadedImage?.url,
-      //   avatarPublicId: uploadedImage?.public_id,
-      // });
-
-      return res.status(200).json({
-        message: "Profile updated successfully ✅",
+      const updatedUser = await userService.updateUserProfile(
+        userId,
         fullname,
-        image: uploadedImage,
-      });
+        file,
+        public_id
+      );
+
+      return ResponseHandler.success(
+        res,
+        updatedUser,
+        "Profile updated successfully ✅",
+        200
+      );
     } catch (error: any) {
-      return res.status(500).json({
-        message: "Profile update failed ❌",
-        error: error.message,
-      });
+      return ResponseHandler.error(res, error.message);
     }
   }
 }

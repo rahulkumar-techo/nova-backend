@@ -1,16 +1,37 @@
-// src/shared/utils/file-upload/file.service.ts
-// Description: Service layer for file operations
+// src/shared/utils/file-upload/fileManager.ts
+// Description: Optimized and safe service layer for file operations (Cloudinary + Sharp)
 
+import sharp from "sharp";
 import { FileRepository } from "./file.repository";
 
 export class FileManger {
   private repo = new FileRepository();
+  private MAX_SIZE_MB = 10;
 
+  /**
+   * Optimize image before uploading
+   */
+  private async optimizeBuffer(buffer: Buffer) {
+    return await sharp(buffer)
+      .resize(512, 512, { fit: "cover" })
+      .jpeg({ quality: 80 })
+      .toBuffer();
+  }
+
+  /**
+   * Upload multiple files to Cloudinary (parallel)
+   */
   async uploadFiles(files: Express.Multer.File[], folder: string) {
     const start = performance.now();
 
     const results = await Promise.all(
-      files.map((file) => this.repo.uploadFile(file.buffer, folder))
+      files.map(async (file) => {
+        if (file.size > this.MAX_SIZE_MB * 1024 * 1024) {
+          throw new Error(`File too large. Max ${this.MAX_SIZE_MB} MB`);
+        }
+        const optimized = await this.optimizeBuffer(file.buffer);
+        return this.repo.uploadFile(optimized, folder);
+      })
     );
 
     return {
@@ -23,28 +44,44 @@ export class FileManger {
     };
   }
 
+  /**
+   * Replace existing file in Cloudinary
+   */
   async updateFile(public_id: string, file: Express.Multer.File, folder: string) {
     const start = performance.now();
 
-    // Delete old image from Cloudinary (if exists)
-    if (public_id) await this.repo.deleteFile(public_id);
+    // 🧩 Validate file size before upload
+    if (file.size > this.MAX_SIZE_MB * 1024 * 1024) {
+      throw new Error(`File too large. Max ${this.MAX_SIZE_MB} MB`);
+    }
 
-    // Upload new image
-    const result: any = await this.repo.uploadFile(file.buffer, folder);
+    // 🪄 Optimize the image
+    const optimized = await this.optimizeBuffer(file.buffer);
+
+    // ⚡ Delete old & upload new concurrently
+    const [_, uploadResult]: any = await Promise.all([
+      public_id ? this.repo.deleteFile(public_id) : Promise.resolve(),
+      this.repo.uploadFile(optimized, folder),
+    ]);
 
     return {
       responseTimeMs: Math.round(performance.now() - start),
       data: {
-        url: result.secure_url,
-        public_id: result.public_id,
-        bytes: result.bytes,
+        secure_url: uploadResult.secure_url,
+        public_id: uploadResult.public_id,
+        bytes: uploadResult.bytes,
       },
     };
   }
 
+  /**
+   * Delete multiple files from Cloudinary (parallel)
+   */
   async deleteFiles(public_ids: string[]) {
     const start = performance.now();
-    const results = await Promise.all(public_ids.map((id) => this.repo.deleteFile(id)));
+    const results = await Promise.all(
+      public_ids.map((id) => this.repo.deleteFile(id))
+    );
 
     return {
       responseTimeMs: Math.round(performance.now() - start),
