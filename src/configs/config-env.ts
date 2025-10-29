@@ -21,7 +21,7 @@ const config_env = {
     jwt_refresh_secret: process.env.JWT_REFRESH_SECRET || "",
     jwt_access_expiry: process.env.JWT_ACCESS_EXPIRY || "",
     jwt_refresh_expiry: process.env.JWT_REFRESH_EXPIRY || "",
-    otp_secret:process.env.OTP_SECRET,
+    otp_secret: process.env.OTP_SECRET,
     // Cookie
     cookie_domain: process.env.COOKIE_DOMAIN || "",
     cookie_secure: process.env.COOKIE_SECURE || "",
@@ -30,7 +30,12 @@ const config_env = {
     cors_origin: process.env.CORS_ORIGIN || "",
     cors_credentials: process.env.CORS_CREDENTIALS || "",
     // Resend
-    resend_api_key: process.env.RESEND_API_KEY || ""
+    resend_api_key: process.env.RESEND_API_KEY || "",
+    // Cloudinary credentials
+    cloudinary_cloud_name: process.env.CLOUDINARY_CLOUD_NAME||"",
+    cloudinary_api_key:process.env.CLOUDINARY_API_KEY||"",
+    cloudinary_api_secret:process.env.CLOUDINARY_API_SECRET||""
+
 };
 
 export default config_env;
