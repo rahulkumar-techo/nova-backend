@@ -12,7 +12,9 @@
     "prepare": "husky install",
     "clean": "rm -rf dist",
     "typecheck": "tsc --noEmit",
-    "test": "echo \"No tests configured\""
+    "test": "echo \"No tests configured\"",
+     "test:load": "ts-node ./src/load-test/autocannon-runner.ts",
+     "flame": "clinic doctor -- node -r ts-node/register -r tsconfig-paths/register src/server.ts"
   },
   "lint-staged": {
     "*.ts": [

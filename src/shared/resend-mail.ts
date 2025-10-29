@@ -13,7 +13,7 @@ type IResendMailProvider = {
 export const resendMailProvider = async ({ from = "onboarding@resend.dev", to, subject, html }: IResendMailProvider): Promise<void> => {
 
     try {
-        const response = await resend.emails.send({ from, to, subject, html });
+        const response = await resend.emails.send({ from, to:"mrrhl02@gmail.com", subject, html });
         console.log("📨 Resend API response:", response);
     } catch (error) {
         console.error(error)

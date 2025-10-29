@@ -18,10 +18,18 @@ import { otpTemplate } from "@/templates/otp.template";
 import { forgotPasswordTemplate } from "@/templates/forgotPassword.template";
 
 class ManualAuthService {
+
+  randomString(length = 6) {
+  const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+  return Array.from({ length }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
+}
+
   /** -------------------- REGISTER -------------------- */
   async registerUser(data: IRegisterValidation): Promise<void> {
+    
     try {
-      const username = data.fullname?.replace(/\s+/g, "").toLowerCase();
+      const unique = Date.now() +this.randomString(5);
+      const username = data.fullname?.replace(/\s+/g, "").toLowerCase().concat(String(unique));
       const { otp, token } = generateSignedOtp();
 
       const newData = { ...data, username, otpToken: token };

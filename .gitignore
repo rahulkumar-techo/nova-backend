@@ -21,3 +21,4 @@ public/build/
 *.env.test.local
 package-lock.json
 yarn.lock
+.clinic
